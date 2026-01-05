@@ -1,3 +1,5 @@
+#!./.venv/bin/python3.11
+
 from engine.game import Game
 from game.gameplayScene import GameplayScene
 from game.level import Level
