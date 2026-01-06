@@ -1,6 +1,5 @@
 from __future__ import annotations
 import pygame
-from engine.game import Game
 from engine.scene import Scene
 from game.uiButton import UIButton
 
@@ -28,9 +27,6 @@ class MenuScene (Scene):
         # Prevent key repeat spam
         self.nav_cooldown = 0
         self.nav_delay = 150  # ms
-        
-    def setGameobj(self, gameobj : Game):
-        self.gameobj = gameobj
 
     def _update_focus(self):
         for i, btn in enumerate(self.buttons):
@@ -62,7 +58,7 @@ class MenuScene (Scene):
                     self.buttons[self.focused_index].activate()
 
             elif event.key == pygame.K_ESCAPE:
-                self.gameobj.change_scene(self.prev_scene)
+                self.gameobj.pop_scene()
 
     def update(self, dt: int):
         pass  # No polling needed; event-driven

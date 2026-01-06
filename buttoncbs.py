@@ -2,12 +2,13 @@ from game.menuScene import MenuScene
 from engine.game import Game
 from game.uiButton import UIButton
 from game.player import Player
+from item import getItem
 from pygame.font import Font
 from pygame import Rect
 
 def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int):
     scene = MenuScene(
-        game.get_scene(),
+        game.peek_scene(),
         bgcolor = (100, 150, 100),
         buttons = [],
         texts = [ (
@@ -25,11 +26,11 @@ def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int):
     player.hp = (player.maxhp if player.hp > player.maxhp else player.hp)
     player.gold -= (price if player.gold >= price and player.hp != player.maxhp else 0)
     
-    game.change_scene(scene)
+    game.push_scene(scene)
     
 def buyDamage(game: Game, font: Font, player: Player, amount: int, price: int):
     scene = MenuScene(
-        game.get_scene(),
+        game.peek_scene(),
         bgcolor = (100, 150, 100),
         buttons = [],
         texts = [ (
@@ -46,11 +47,11 @@ def buyDamage(game: Game, font: Font, player: Player, amount: int, price: int):
     player.dmgmean += (amount if player.gold >= price else 0)
     player.gold -= (price if player.gold >= price else 0)
     
-    game.change_scene(scene)
+    game.push_scene(scene)
 
 def shop(game: Game, font : Font, player: Player):
     shopScene = MenuScene(
-        game.get_scene(),
+        game.peek_scene(),
         bgcolor = (100, 150, 100),
         buttons = [
             UIButton(Rect(900, 150, 74, 40), "Buy", lambda: buyHeal(game, font, player, 15, 15), font),
@@ -85,6 +86,29 @@ def shop(game: Game, font : Font, player: Player):
             )
         ]
     )
-    game.change_scene(shopScene)
+    game.push_scene(shopScene)
     
+    return
+
+def addItem(game: Game, font: Font, player: Player, itemID: str):
+    item = getItem(itemID)
+    
+    scene = MenuScene (
+        game.peek_scene(),
+        (150, 150, 150),
+        buttons = [],
+        texts = [
+            (
+                font.render(f"You gained a {item.name}!", True, (0, 0, 0)),
+                Rect(300, 300, 724, 50)
+            )
+        ]
+    )
+    
+    if item in player.inventory.keys():
+        player.inventory[item] += 1
+    else:
+        player.inventory[item] = 1
+    
+    game.push_scene(scene)
     return

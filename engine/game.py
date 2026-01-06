@@ -1,34 +1,47 @@
 import pygame
-from typing import Any
+from collections import deque as stack
+from engine.scene import Scene
+from engine.hud import HUD
 
 class Game:
-    def __init__(self, scene : Any, frm : int = 60):
+    def __init__(self, scene : Scene, frm : int = 60):
         pygame.init()
         pygame.display.set_caption("Advenchers of Kowawa")
 
         self.surface = pygame.display.set_mode((1024, 768))
         self.clock = pygame.time.Clock()
-        self.scene = scene
-        self.scene.setGameobj(self)
         self.running = True
         self.framerate = frm
         
-    def setEscapeMenu(self, escapeMenu : Any):
+        self.scenestack = stack([scene])
+        self.scenestack[-1].setGameobj(self)
+        
+        self.HUDlist : list[HUD] = []
+        
+    def setEscapeMenu(self, escapeMenu : Scene):
         self.escapeMenu = escapeMenu
         
-    def change_scene(self, scene : Any):
-        self.scene = scene
-        self.scene.setGameobj(self)
+    def add_hud(self, hud: HUD):
+        self.HUDlist.append(hud)
         
-    def get_scene(self):
-        return self.scene
+    def peek_scene(self):
+        return self.scenestack[-1]
+
+    def pop_scene(self):
+        self.scenestack.pop()
+        
+    def push_scene(self, scene: Scene):
+        self.scenestack.append(scene)
+        self.scenestack[-1].setGameobj(self)
 
     def run(self):
         while self.running:
             dt = self.clock.tick(self.framerate)
             self.handle_events()
-            self.scene.update(dt)
-            self.scene.render(self.surface)
+            self.scenestack[-1].update(dt)
+            self.scenestack[-1].render(self.surface)
+            for hud in self.HUDlist:
+                hud.render(self.surface)
             pygame.display.flip()
 
     def handle_events(self):
@@ -36,4 +49,4 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 raise SystemExit
-            self.scene.handle_event(event)
+            self.scenestack[-1].handle_event(event)

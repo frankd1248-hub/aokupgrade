@@ -1,5 +1,6 @@
 import pygame
 from game.level import Level
+from item import Item
 
 class Player:
     def __init__(self):
@@ -9,6 +10,7 @@ class Player:
         self.dmgmean = 15
         self.dmgdevt = 4
         self.gold = 50
+        self.inventory : dict[Item, int] = {}
 
     def spawn(self, pos: tuple[int, int]):
         self.pos = pygame.Vector2(pos)
@@ -17,3 +19,6 @@ class Player:
         new_pos : pygame.Vector2 = self.pos + direction
         if level.is_walkable(new_pos):
             self.pos = new_pos
+            
+    def inventorySummary(self) -> str:
+        return ""

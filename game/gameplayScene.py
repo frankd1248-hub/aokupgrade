@@ -1,10 +1,10 @@
 import pygame
 from engine.camera import Camera
 from engine.scene import Scene
-from engine.game import Game
 from game.player import Player
 from game.level import Level
 from game.menuScene import MenuScene
+from game.uiButton import UIButton
 
 MOVE_SPEED = 7
 
@@ -13,16 +13,14 @@ class GameplayScene (Scene):
         A gameplay scene, initialized by a list of levels. This can be initialized in a JSON-like format for ease.
     """
     
-    def __init__(self, levels: list[Level]):
+    def __init__(self, levels: list[Level], buttons: list[UIButton] = []):
         self.player = Player()
         self.camera = Camera(1024, 768)
 
         self.levels = levels
         self.current_level_index = 0
+        self.buttons = buttons
         self.load_level(0)
-        
-    def setGameobj(self, gameobj: Game):
-        self.gameobj = gameobj
         
     def setPlayer(self, player: Player):
         self.player = player
@@ -44,7 +42,7 @@ class GameplayScene (Scene):
                     break
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.gameobj.change_scene(self.pause_menu)
+                self.gameobj.push_scene(self.pause_menu)
 
     def update(self, dt: int):
         keys = pygame.key.get_pressed()
@@ -67,6 +65,9 @@ class GameplayScene (Scene):
 
         for button in self.current_level.buttons:
             button.draw(surface, self.camera)
+            
+        for button in self.buttons:
+            button.draw(surface)
 
         pygame.draw.rect(
             surface,

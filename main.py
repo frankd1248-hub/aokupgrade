@@ -7,6 +7,7 @@ from game.worldButton import WorldButton
 from game.menuScene import MenuScene
 from game.uiButton import UIButton
 from game.player import Player
+from game.inventoryHUD import InventoryHUD
 import buttoncbs
 import pygame
 
@@ -27,10 +28,15 @@ gameScene : GameplayScene
 player : Player = Player()
 
 level1Buttons = [
-    WorldButton(
+    WorldButton (
         pygame.Rect(1542, 3948, 225, 50),
         "Enter the shop",
         lambda: buttoncbs.shop(game, font, player),
+        font
+    ), WorldButton (
+        pygame.Rect(2940, 4740, 200, 50),
+        "Pick it up?",
+        lambda: buttoncbs.addItem(game, font, player, "dusty_bun"),
         font
     )
 ]
@@ -40,7 +46,7 @@ levels = [
 ]
 
 def resume():
-    game.change_scene(gameScene)
+    game.pop_scene()
     
 def quit_game():
     pygame.quit()
@@ -72,6 +78,11 @@ menu = MenuScene(
             pygame.Rect(464, 200, 312, 50)
         )
     ]
+)
+
+inventoryHUD = InventoryHUD (
+    lambda: player.inventorySummary(),
+    font
 )
 
 gameScene.setPausemenu(menu)

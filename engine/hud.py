@@ -2,19 +2,15 @@ import pygame
 from abc import ABC, abstractmethod
 from typing import Any
 
-class Scene (ABC):
-
+class HUD (ABC):
+    
     def setGameobj(self, gameobj: Any):
         self.gameobj = gameobj
     
     @abstractmethod
-    def handle_event(self, event: pygame.event.Event):
-        pass
-    
-    @abstractmethod
-    def update(self, dt: int):
-        pass
-    
-    @abstractmethod
     def render(self, surface: pygame.Surface):
+        pass
+    
+    @abstractmethod
+    def handle_event(self, event: pygame.event.Event):
         pass
