@@ -6,7 +6,7 @@ from item import getItem
 from pygame.font import Font
 from pygame import Rect
 
-def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int):
+def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int) -> None:
     scene = MenuScene(
         game.peek_scene(),
         bgcolor = (100, 150, 100),
@@ -28,7 +28,7 @@ def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int):
     
     game.push_scene(scene)
     
-def buyDamage(game: Game, font: Font, player: Player, amount: int, price: int):
+def buyDamage(game: Game, font: Font, player: Player, amount: int, price: int) -> None:
     scene = MenuScene(
         game.peek_scene(),
         bgcolor = (100, 150, 100),
@@ -49,14 +49,17 @@ def buyDamage(game: Game, font: Font, player: Player, amount: int, price: int):
     
     game.push_scene(scene)
 
-def shop(game: Game, font : Font, player: Player):
+def shop(game: Game, font : Font, player: Player) -> None:
     shopScene = MenuScene(
         game.peek_scene(),
         bgcolor = (100, 150, 100),
         buttons = [
-            UIButton(Rect(900, 150, 74, 40), "Buy", lambda: buyHeal(game, font, player, 15, 15), font),
-            UIButton(Rect(900, 200, 75, 40), "Buy", lambda: buyHeal(game, font, player, 40, 35), font),
-            UIButton(Rect(900, 250, 75, 40), "Buy", lambda: buyHeal(game, font, player, 95, 75), font)
+            UIButton(Rect(900, 200, 74, 40), "Buy", lambda: buyHeal(game, font, player, 15, 15), font),
+            UIButton(Rect(900, 250, 75, 40), "Buy", lambda: buyHeal(game, font, player, 40, 35), font),
+            UIButton(Rect(900, 300, 75, 40), "Buy", lambda: buyHeal(game, font, player, 95, 75), font),
+            UIButton(Rect(900, 350, 74, 40), "Buy", lambda: buyDamage(game, font, player, 15, 25), font),
+            UIButton(Rect(900, 400, 75, 40), "Buy", lambda: buyDamage(game, font, player, 35, 55), font),
+            UIButton(Rect(900, 450, 75, 40), "Buy", lambda: buyDamage(game, font, player, 75, 100), font)
         ],
         texts = [ 
             (
@@ -67,22 +70,22 @@ def shop(game: Game, font : Font, player: Player):
                 Rect(50, 100, 825, 40)
             ), (
                 font.render("Heal 15HP                         15G", True, (0, 0, 0)), 
-                Rect(50, 150, 825, 40)
-            ), (
-                font.render("Heal 40HP                         35G", True, (0, 0, 0)), 
                 Rect(50, 200, 825, 40)
             ), (
-                font.render("Heal 95HP                         75G", True, (0, 0, 0)), 
+                font.render("Heal 40HP                         35G", True, (0, 0, 0)), 
                 Rect(50, 250, 825, 40)
             ), (
-                font.render("Increase attack damage by 15      25G", True, (0, 0, 0)),
+                font.render("Heal 95HP                         75G", True, (0, 0, 0)), 
                 Rect(50, 300, 825, 40)
             ), (
-                font.render("Increase attack damage by 35      55G", True, (0, 0, 0)),
+                font.render("Increase attack damage by 15      25G", True, (0, 0, 0)),
                 Rect(50, 350, 825, 40)
             ), (
-                font.render("Increase attack damage by 75     100G", True, (0, 0, 0)),
+                font.render("Increase attack damage by 35      55G", True, (0, 0, 0)),
                 Rect(50, 400, 825, 40)
+            ), (
+                font.render("Increase attack damage by 75     100G", True, (0, 0, 0)),
+                Rect(50, 450, 825, 40)
             )
         ]
     )
@@ -90,7 +93,7 @@ def shop(game: Game, font : Font, player: Player):
     
     return
 
-def addItem(game: Game, font: Font, player: Player, itemID: str):
+def addItem(game: Game, font: Font, player: Player, itemID: str) -> None:
     item = getItem(itemID)
     
     scene = MenuScene (

@@ -12,9 +12,8 @@ import buttoncbs
 import pygame
 
 pygame.font.init()
-font = pygame.font.Font("assets/font.ttf", 24)
-
-defaultKeybinds : dict[str, int]= {
+font = pygame.font.Font("assets/font.ttf", 24) 
+defaultKeybinds : dict[str, int] = {
     "mv_up": pygame.K_w,
     "mv_left": pygame.K_a,
     "mv_right": pygame.K_d,
