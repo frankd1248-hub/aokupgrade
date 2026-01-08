@@ -2,6 +2,7 @@ from __future__ import annotations
 import pygame
 from engine.scene import Scene
 from game.uiButton import UIButton
+from typing import Callable
 
 class MenuScene (Scene):
     """_summary_
@@ -13,7 +14,8 @@ class MenuScene (Scene):
         prev_scene : Scene,
         bgcolor : tuple[int, int, int] = (255, 255, 255),
         buttons : list[UIButton] | None = None,
-        texts : list[tuple[pygame.Surface, pygame.Rect]] | None = None
+        texts : list[tuple[pygame.Surface, pygame.Rect]] | None = None,
+        updatecb: Callable[[float], None] = lambda x: None
     ):
         self.prev_scene = prev_scene
         self.bgcolor = bgcolor
@@ -27,10 +29,15 @@ class MenuScene (Scene):
         # Prevent key repeat spam
         self.nav_cooldown = 0
         self.nav_delay = 150  # ms
+        
+        self.updatecb = updatecb
 
     def _update_focus(self):
         for i, btn in enumerate(self.buttons):
             btn.focused = (i == self.focused_index)
+            
+    def set_texts(self, texts: list[tuple[pygame.Surface, pygame.Rect]]) -> None:
+        self.texts = texts
 
     def handle_event(self, event : pygame.event.Event):
         # Mouse support stays
@@ -61,7 +68,7 @@ class MenuScene (Scene):
                 self.gameobj.pop_scene()
 
     def update(self, dt: int):
-        pass  # No polling needed; event-driven
+        self.updatecb(dt)
 
     def render(self, surface: pygame.Surface):
         surface.fill(self.bgcolor)

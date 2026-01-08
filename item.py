@@ -12,9 +12,13 @@ class Item:
         if self.ID == other.ID:
             return True
         return False
+    
+    def __hash__(self: Item) -> int:
+        return hash(self.ID)
+        
 
 def getItem(itemID: str) -> Item:
     if itemID == "dusty_bun":
-        return Item(itemID, "dusty_bun")
+        return Item(itemID, "Dusty Bun")
     else:
         return Item(itemID, f"Unknown({itemID})")

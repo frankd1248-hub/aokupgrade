@@ -5,6 +5,7 @@ from game.player import Player
 from item import getItem
 from pygame.font import Font
 from pygame import Rect
+from pygame import Surface
 
 def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int) -> None:
     scene = MenuScene(
@@ -50,6 +51,34 @@ def buyDamage(game: Game, font: Font, player: Player, amount: int, price: int) -
     game.push_scene(scene)
 
 def shop(game: Game, font : Font, player: Player) -> None:
+    shoptext = [ 
+        (
+            font.render("SHOP", True, (0, 0, 0)),
+            Rect(480, 50, 84, 40)
+        ), (
+            font.render(f"Current gold: {player.gold}, Current health: {player.hp}, Current attack damage: {player.dmgmean}", True, (0, 0, 0)), 
+            Rect(50, 100, 825, 40)
+        ), (
+            font.render("Heal 15HP                         15G", True, (0, 0, 0)), 
+            Rect(50, 200, 825, 40)
+        ), (
+            font.render("Heal 40HP                         35G", True, (0, 0, 0)), 
+            Rect(50, 250, 825, 40)
+        ), (
+            font.render("Heal 95HP                         75G", True, (0, 0, 0)), 
+            Rect(50, 300, 825, 40)
+        ), (
+            font.render("Increase attack damage by 15      25G", True, (0, 0, 0)),
+            Rect(50, 350, 825, 40)
+        ), (
+            font.render("Increase attack damage by 35      55G", True, (0, 0, 0)),
+            Rect(50, 400, 825, 40)
+        ), (
+            font.render("Increase attack damage by 75     100G", True, (0, 0, 0)),
+            Rect(50, 450, 825, 40)
+        )
+    ]
+    
     shopScene = MenuScene(
         game.peek_scene(),
         bgcolor = (100, 150, 100),
@@ -61,37 +90,19 @@ def shop(game: Game, font : Font, player: Player) -> None:
             UIButton(Rect(900, 400, 75, 40), "Buy", lambda: buyDamage(game, font, player, 35, 55), font),
             UIButton(Rect(900, 450, 75, 40), "Buy", lambda: buyDamage(game, font, player, 75, 100), font)
         ],
-        texts = [ 
-            (
-                font.render("SHOP", True, (0, 0, 0)),
-                Rect(480, 50, 84, 40)
-            ), (
-                font.render(f"Current gold: {player.gold}, Current health: {player.hp}, Current attack damage: {player.dmgmean}", True, (0, 0, 0)), 
-                Rect(50, 100, 825, 40)
-            ), (
-                font.render("Heal 15HP                         15G", True, (0, 0, 0)), 
-                Rect(50, 200, 825, 40)
-            ), (
-                font.render("Heal 40HP                         35G", True, (0, 0, 0)), 
-                Rect(50, 250, 825, 40)
-            ), (
-                font.render("Heal 95HP                         75G", True, (0, 0, 0)), 
-                Rect(50, 300, 825, 40)
-            ), (
-                font.render("Increase attack damage by 15      25G", True, (0, 0, 0)),
-                Rect(50, 350, 825, 40)
-            ), (
-                font.render("Increase attack damage by 35      55G", True, (0, 0, 0)),
-                Rect(50, 400, 825, 40)
-            ), (
-                font.render("Increase attack damage by 75     100G", True, (0, 0, 0)),
-                Rect(50, 450, 825, 40)
-            )
-        ]
+        texts = shoptext,
+        updatecb = lambda dt: changeShopText(shoptext, font, player, shopScene)
     )
     game.push_scene(shopScene)
     
     return
+
+def changeShopText(original: list[tuple[Surface, Rect]], font: Font, player: Player, scene: MenuScene) -> None:
+    original[1] = (
+        font.render(f"Current gold: {player.gold}, Current health: {player.hp}, Current attack damage: {player.dmgmean}", True, (0, 0, 0)), 
+        Rect(50, 100, 825, 40)
+    )
+    scene.set_texts(original)
 
 def addItem(game: Game, font: Font, player: Player, itemID: str) -> None:
     item = getItem(itemID)
