@@ -1,5 +1,10 @@
 #!./.venv/bin/python3.11
 
+"""
+This is a project I started in C many years ago.
+In January 2026, I decided I would re-start it at a completely new level, so here I am.
+"""
+
 from engine.game import Game
 from game.gameplayScene import GameplayScene
 from game.level import Level
@@ -35,7 +40,7 @@ level1Buttons = [
     ), WorldButton (
         pygame.Rect(2940, 4740, 200, 50),
         "Pick it up?",
-        lambda: buttoncbs.addItem(game, font, player, "dusty_bun"),
+        lambda: buttoncbs.addItem(game, font, player, "dusty_bun", 1),
         font
     )
 ]

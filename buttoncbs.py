@@ -2,6 +2,7 @@ from game.menuScene import MenuScene
 from engine.game import Game
 from game.uiButton import UIButton
 from game.player import Player
+from game.gameplayScene import GameplayScene
 from item import getItem
 from pygame.font import Font
 from pygame import Rect
@@ -104,8 +105,11 @@ def changeShopText(original: list[tuple[Surface, Rect]], font: Font, player: Pla
     )
     scene.set_texts(original)
 
-def addItem(game: Game, font: Font, player: Player, itemID: str) -> None:
+def addItem(game: Game, font: Font, player: Player, itemID: str, buttonToRemove: int | None = None) -> None:
     item = getItem(itemID)
+    
+    if buttonToRemove is not None and isinstance(game.peek_scene(), GameplayScene):
+        game.peek_scene().remove_wbutton(buttonToRemove) # type: ignore
     
     scene = MenuScene (
         game.peek_scene(),
