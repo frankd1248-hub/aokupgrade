@@ -44,8 +44,8 @@ class GameplayScene (Scene):
             if event.key == pygame.K_ESCAPE:
                 self.gameobj.push_scene(self.pause_menu)
                 
-    def remove_wbutton(self, idx: int) -> None:
-        self.buttons.pop(idx)
+    def remove_wbutton(self, level: int, idx: int) -> None:
+        self.levels[level].buttons.pop(idx)
 
     def update(self, dt: int):
         keys = pygame.key.get_pressed()

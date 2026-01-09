@@ -38,15 +38,20 @@ level1Buttons = [
         lambda: buttoncbs.shop(game, font, player),
         font
     ), WorldButton (
-        pygame.Rect(2940, 4740, 200, 50),
+        pygame.Rect(2940, 4680, 200, 50),
         "Pick it up?",
-        lambda: buttoncbs.addItem(game, font, player, "dusty_bun", 1),
+        lambda: buttoncbs.addItem(game, font, player, "dusty_bun", 0, 1),
+        font
+    ), WorldButton (
+        pygame.Rect(3894, 5859, 150, 50),
+        "FIGHT!",
+        lambda: buttoncbs.fight(game, font, player, "Idiotlax", (4812, 5889, 0), tame = buttoncbs.canTameIdiotlax),
         font
     )
 ]
 
 levels = [
-    Level("assets/map1.png", (181 * 3, 1419 * 3), level1Buttons)
+    Level("assets/map1.png", (200 * 3, 1419 * 3), level1Buttons)
 ]
 
 def resume():

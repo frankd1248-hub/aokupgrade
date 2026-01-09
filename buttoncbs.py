@@ -6,7 +6,9 @@ from game.gameplayScene import GameplayScene
 from item import getItem
 from pygame.font import Font
 from pygame import Rect
+from pygame import Vector2 as Pair
 from pygame import Surface
+from typing import Callable
 
 def buyHeal(game: Game, font: Font, player: Player, amount: int, price: int) -> None:
     scene = MenuScene(
@@ -105,11 +107,11 @@ def changeShopText(original: list[tuple[Surface, Rect]], font: Font, player: Pla
     )
     scene.set_texts(original)
 
-def addItem(game: Game, font: Font, player: Player, itemID: str, buttonToRemove: int | None = None) -> None:
+def addItem(game: Game, font: Font, player: Player, itemID: str, level: int | None = None, buttonToRemove: int | None = None) -> None:
     item = getItem(itemID)
     
     if buttonToRemove is not None and isinstance(game.peek_scene(), GameplayScene):
-        game.peek_scene().remove_wbutton(buttonToRemove) # type: ignore
+        game.peek_scene().remove_wbutton(level, buttonToRemove) # type: ignore
     
     scene = MenuScene (
         game.peek_scene(),
@@ -129,4 +131,17 @@ def addItem(game: Game, font: Font, player: Player, itemID: str, buttonToRemove:
         player.inventory[item] = 1
     
     game.push_scene(scene)
-    return
+    return 
+
+def fight(game: Game, font: Font, player: Player, name: str, tpLocation: tuple[int, int, int], tame: Callable[[Player], bool] | None = None):
+    player.move(Pair (
+        tpLocation[0] - player.pos[0],
+        tpLocation[1] - player.pos[1]
+    ), game.peek_scene().levels[tpLocation[2]]) # type: ignore
+    
+    # scene = MenuScene (
+    #     game.peek_scene()
+    # )
+
+def canTameIdiotlax(player: Player) -> bool:
+    return False
