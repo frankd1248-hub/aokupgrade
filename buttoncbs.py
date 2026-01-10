@@ -139,9 +139,14 @@ def fight(game: Game, font: Font, player: Player, name: str, tpLocation: tuple[i
         tpLocation[1] - player.pos[1]
     ), game.peek_scene().levels[tpLocation[2]]) # type: ignore
     
-    # scene = MenuScene (
-    #     game.peek_scene()
-    # )
+    scene = MenuScene (
+        game.peek_scene(),
+        bgcolor = (46, 3, 2),
+        buttons = [],
+        texts = [],
+    )
+    
+    game.push_scene(scene)
 
 def canTameIdiotlax(player: Player) -> bool:
     return False
