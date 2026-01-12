@@ -15,7 +15,8 @@ class MenuScene (Scene):
         bgcolor : tuple[int, int, int] = (255, 255, 255),
         buttons : list[UIButton] | None = None,
         texts : list[tuple[pygame.Surface, pygame.Rect]] | None = None,
-        updatecb: Callable[[float], None] = lambda x: None
+        updatecb: Callable[[float], None] = lambda x: None,
+        exit_on_esc : bool = True
     ):
         self.prev_scene = prev_scene
         self.bgcolor = bgcolor
@@ -31,6 +32,8 @@ class MenuScene (Scene):
         self.nav_delay = 150  # ms
         
         self.updatecb = updatecb
+        
+        self._exit_on_esc = exit_on_esc
 
     def _update_focus(self):
         for i, btn in enumerate(self.buttons):
@@ -64,7 +67,7 @@ class MenuScene (Scene):
                 if self.focused_index >= 0:
                     self.buttons[self.focused_index].activate()
 
-            elif event.key == pygame.K_ESCAPE:
+            elif event.key == pygame.K_ESCAPE and self._exit_on_esc:
                 self.gameobj.pop_scene()
 
     def update(self, dt: int):

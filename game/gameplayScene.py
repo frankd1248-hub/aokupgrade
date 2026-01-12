@@ -27,6 +27,8 @@ class GameplayScene (Scene):
         self.camera = Camera(1024, 768)
         self.current_level_index = 0
         self.load_level(0)
+        self.playersprite = pygame.image.load("./assets/player.png").convert_alpha()
+        self.playersprite = pygame.transform.smoothscale(self.playersprite, (160, 240))
     
     def setPausemenu(self, menu: MenuScene):
         self.pause_menu = menu
@@ -72,8 +74,6 @@ class GameplayScene (Scene):
         for button in self.buttons:
             button.draw(surface)
 
-        pygame.draw.rect(
-            surface,
-            (150, 150, 150),
-            pygame.Rect(512 - 40, 384 - 60, 80, 120)
-        )
+        surface.blit(self.playersprite, pygame.Rect(
+            432, 264, 80, 120
+        ))

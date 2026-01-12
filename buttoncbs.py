@@ -141,9 +141,33 @@ def fight(game: Game, font: Font, player: Player, name: str, tpLocation: tuple[i
     
     scene = MenuScene (
         game.peek_scene(),
-        bgcolor = (46, 3, 2),
-        buttons = [],
+        bgcolor = (60, 30, 20),
+        buttons = [
+            UIButton(
+                Rect(106, 620, 200, 50),
+                "FIGHT!",
+                lambda: None,
+                font,
+                (10, 10, 10), (200, 30, 0),
+                (240, 70, 0), (204, 0, 0)
+            ), UIButton(
+                Rect(412, 620, 200, 50),
+                "ITEMS!",
+                lambda: None,
+                font,
+                (10, 10, 10), (200, 30, 0),
+                (240, 70, 0), (204, 0, 0)
+            ), UIButton(
+                Rect(718, 620, 200, 50),
+                "MERCY!",
+                lambda: None,
+                font,
+                (10, 10, 10), (200, 30, 0),
+                (240, 70, 0), (204, 0, 0)
+            )
+        ],
         texts = [],
+        exit_on_esc = False
     )
     
     game.push_scene(scene)
