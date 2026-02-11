@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Any
 
 class Item:
     
@@ -15,6 +16,9 @@ class Item:
     
     def __hash__(self: Item) -> int:
         return hash(self.ID)
+    
+    def use(self: Item, player : Any) -> None:
+        pass
         
 
 def getItem(itemID: str) -> Item:

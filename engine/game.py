@@ -30,7 +30,7 @@ class Game:
         
         self.HUDlist : list[HUD] = []
         
-    def add_hud(self, hud: HUD):
+    def add_hud(self, hud: HUD) -> None:
         """
         Add a HUD to be displayed every frame.
 
@@ -39,21 +39,30 @@ class Game:
         """
         self.HUDlist.append(hud)
         
-    def peek_scene(self):
+    def peek_scene(self) -> Scene:
         """
         A method for manipulating the scene stack.
         Returns the scene on the top of the stack, without removing it.
         """
         return self.scenestack[-1]
+    
+    def peek_next_scene(self) -> Scene:
+        """
+        A method for manipulating the scene stack.
+        Returns the scene right below the one on the top, without removing it. 
+        Useful for scenarios where you need to access members of a scene before displaying it.
+        Maybe this is just bad design though
+        """
+        return self.scenestack[-2]
 
-    def pop_scene(self):
+    def pop_scene(self) -> Scene:
         """
         A method for manipulating the scene stack.
         Removes the scene on the top of the stack and returns it.
         """
         return self.scenestack.pop()
         
-    def push_scene(self, scene: Scene):
+    def push_scene(self, scene: Scene) -> None:
         """
         A method for manipulating the scene stack.
         Adds a scene to the top of the stack, meaning it will be displayed starting next frame.
@@ -64,7 +73,7 @@ class Game:
         self.scenestack.append(scene)
         self.scenestack[-1].setGameobj(self)
 
-    def run(self):
+    def run(self) -> None:
         """
         Begins running the game.
         Enters the game loop and lets go only when the window is closed.
@@ -78,7 +87,7 @@ class Game:
                 hud.render(self.surface)                        # Render all relevant HUDs
             pygame.display.flip()                               # Update display
 
-    def handle_events(self):
+    def handle_events(self) -> None:
         """
         Distributes every event other than pygame.QUIT to the scene currently displayed.
         """

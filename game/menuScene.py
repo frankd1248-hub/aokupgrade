@@ -3,6 +3,7 @@ import pygame
 from engine.scene import Scene
 from game.uiButton import UIButton
 from typing import Callable
+from typing import Any
 
 class MenuScene (Scene):
     """_summary_
@@ -15,7 +16,7 @@ class MenuScene (Scene):
         bgcolor : tuple[int, int, int] = (255, 255, 255),
         buttons : list[UIButton] | None = None,
         texts : list[tuple[pygame.Surface, pygame.Rect]] | None = None,
-        updatecb: Callable[[float], None] = lambda x: None,
+        updatecb: Callable[[float], Any] = lambda x: None,
         exit_on_esc : bool = True
     ):
         self.prev_scene = prev_scene
